@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <center>
+    <h1><b>REGISTRATION FORM</b></h1>
+     </center>
+
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title></title>
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+    var districtBranches = {
+      "PALAKKAD": ["Pattambi", "Ottapalam", "Chittur","Mannarkkad","Malampuzha"],
+      "KOZHIKKODE": ["Koduvally", "Feroke","Koyilandy","Mukkam","Ramanattukara"],
+      "THRISSUR": ["Chalakkudy", "Chavakkad","Guruvayoor","Irinjalakkuda","Kodungalloor"],
+      "MALAPPURAM": ["Nilambur", "Manjery","Ponnani","Kondotty","Tanur"],
+      "KOCHI": ["Kalvathy", "Karippalam","Mattanchery","Kochangadi","Manassery"],
+
+    };
+
+    function populateBranches() {
+      var districtDropdown = document.getElementById("district");
+      var branchDropdown = document.getElementById("branch");
+      var selectedDistrict = districtDropdown.value;
+
+      branchDropdown.innerHTML = '';
+
+      var branches = districtBranches[selectedDistrict];
+
+      for (var i = 0; i < branches.length; i++) {
+        var option = document.createElement("option");
+        option.textContent = branches[i];
+        branchDropdown.appendChild(option);
+      }
+    }
+  </script>
+</head>
+<body style="background-image:url({% static 'images/bank.jpg' %});line-width:20px;line-height:20px;color:black;input-field:150px;margin-left:20px;">
+
+
+<form method="POST" action="{% url 'reg_form' %}"  >
+         {% csrf_token %}
+
+
+    <div class="form-group">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" class="input-field"><br><br>
+    </div>
+    <div class="form-group">
+        <label for="dob">DOB:</label><br>
+        <input type="date" id="dob" name="dob" class="input-field" ><br><br>
+    </div>
+    <div class="form-group">
+        <label for="age">Age:</label><br>
+        <input type="text" id="age" name="age" class="input-field"><br><br>
+    </div>
+
+        <label>Gender:</label><br><br>
+        <input type="radio" id="male" name="gender" value="male">
+      <label for="male">Male</label>
+
+     <input type="radio" id="female" name="gender" value="female">
+     <label for="female">Female</label>
+
+    <input type="radio" id="other" name="gender" value="other">
+    <label for="other">Other</label><br><br>
+
+    <div class="form-group">
+        <label for="phone">Phone Number:</label><br>
+        <input type="tel" id="phone" name="phone"  maxlength="10" class="input-field"><br><br>
+    </div>
+    <div class="form-group">
+        <label for="mail">Mail ID:</label><br>
+        <input type="email" id="mail" name="mail" class="input-field"><br><br>
+    </div>
+    <div class="form-group">
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address" class="input-field"></textarea><br><br>
+    </div>
+<div class="form-group">
+   <label for="district">Select a district:</label><br>
+  <select id="district" onchange="populateBranches()">
+    <option value="PALAKKAD">PALAKKAD</option>
+    <option value="KOZHIKKODE">KOZHIKKODE</option>
+    <option value="THRISSUR">THRISSUR</option>
+    <option value="MALAPPURAM">MALAPPURAM</option>
+      <option value="KOCHI">KOCHI</option>
+
+    <!-- Add more district options -->
+  </select>
+</div>
+<br>
+  <label for="branch">Select a branch:</label><br>
+  <select id="branch">
+
+    <!-- Options will be populated dynamically using JavaScript -->
+  </select>
+
+    <br><br>
+
+    <div class="form-group">
+
+        <label for="accountType">Account Type:</label><br>
+        <select id="accountType" name="accountType" class="input-field" >
+            <option value="savings">Savings Account</option>
+            <option value="current">Current Account</option>
+        </select><br><br>
+    </div>
+
+    <label>Materials Provided:</label><br><br>
+    <input type="checkbox" id="debitCard" name="materials" value="debitCard" class="input-field">
+    <label for="debitCard">Debit Card</label><br>
+
+    <input type="checkbox" id="creditCard" name="materials" value="creditCard" class="input-field">
+    <label for="creditCard">Credit Card</label><br>
+
+    <input type="checkbox" id="chequeBook" name="materials" value="chequeBook" class="input-field">
+    <label for="chequeBook">Cheque Book</label><br><br>
+
+
+    <input  type="submit" class="btn btn-success" data-href-template="{% url 'demo' %}" name="submit">
+<a class="btn btn-primary" href="{% url 'demo' %}" name="logout">Logout</a>
+
+
+</form>
+
+{% for message in messages %}
+  {{ message }}
+
+{% endfor %}
+</body>
+</html>
